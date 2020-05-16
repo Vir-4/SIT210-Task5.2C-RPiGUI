@@ -1,0 +1,49 @@
+from tkinter import *
+import tkinter.font
+from gpiozero import LED
+import RPi.GPIO
+RPi.GPIO.setmode(RPi.GPIO.BCM)
+
+# HARDWARE #
+led_red=LED(14)
+led_red2=LED(18)
+
+# GUI DEFINATIONS #
+win = Tk()
+win.title("LED Toggler")
+myFont=tkinter.font.Font(family = "Georgia" , size =16 ,weight = "bold")
+
+# EVENT FUNCTIONS #
+def ledToggle_Red():
+    if led_red.is_lit:
+        led_red.off()
+        ledButton_Red["text"] = "Turn LED 1 on"
+    else:
+        led_red2.off()
+        ledButton_Red2["text"] = "Turn LED 2 on"
+        led_red.on()
+        ledButton_Red["text"] = "Turn LED 1 off"
+        
+def ledToggle_Red2():
+    if led_red2.is_lit:
+        led_red2.off()
+        ledButton_Red2["text"] = "Turn LED 2 on"
+    else:
+        led_red.off()
+        ledButton_Red["text"] = "Turn LED 1 on"
+        led_yellow.on()
+        ledButton_Red2"text"] = "Turn LED 2 off"
+
+def exitFunction():
+    RPi.GPIO.cleanup()
+    win.destroy()
+    
+# WIDGETS #
+ledButton_Red = Button(win, text="Turn LED 1 on" ,font =myFont,command =ledToggle_Red,bg='red', height =5 , width = 20)
+ledButton_Red.grid(row=0,column =0)
+
+ledButton_Red2 = Button(win, text="Turn LED 2 on" ,font =myFont,command =ledToggle_Yellow,bg='red', height =5 , width =20)
+ledButton_Red2.grid(row=0,column =5)
+
+exitButton = Button(win, text="Exit" ,font =myFont,command =exitFunction,bg="blue", height =3 , width =20)
+exitButton.grid(row=1,column =5)
